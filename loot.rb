@@ -4,6 +4,12 @@ require "net/https"
 class Loot < Sinatra::Application
   FLOW_URI = URI.parse("https://api.flowdock.com/v1/messages/team_inbox/#{ENV['FLOW_API_TOKEN']}")
 
+  get "/" do
+    status 200
+    content_type "text/plain"
+    "OK"
+  end
+
   post "/amiando/:secret" do
     if params[:secret] == ENV["SECRET"]
       status 200
