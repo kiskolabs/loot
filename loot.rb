@@ -27,8 +27,8 @@ class Loot < Sinatra::Application
         source: "Amiando",
         from_address: "amiando@frozenrails.eu",
         from_name: "Amiando",
-        subject: "Ticket sale (#{params[:ticketCategoryPrice]})",
-        content: "#{params[:ticketFirstName]} #{params[:ticketLastName]} bought #{indefinite_articlerise(params[:ticketCategory])} ticket for #{params[:ticketCategoryPrice]}.",
+        subject: "Ticket sales! (#{params[:paymentValue]})",
+        content: "Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for #{params[:paymentValue]}.",
         tags: ["frozenrails", "amiando"]
       })
 
@@ -43,6 +43,10 @@ class Loot < Sinatra::Application
   private
 
   def indefinite_articlerise(params_word)
-      %w(a e i o u).include?(params_word[0].downcase) ? "an #{params_word}" : "a #{params_word}"
+    %w(a e i o u).include?(params_word[0].downcase) ? "an #{params_word}" : "a #{params_word}"
+  end
+
+  def pluralize(word, count = 1)
+    count == 1 ? "one #{word}" : "#{count} #{word}s"
   end
 end
