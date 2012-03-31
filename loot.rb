@@ -11,6 +11,8 @@ class Loot < Sinatra::Application
   end
 
   post "/amiando/:secret" do
+    content_type "text/plain"
+
     if params[:secret] == ENV["SECRET"]
       status 200
 
