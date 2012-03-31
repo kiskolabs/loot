@@ -1,0 +1,1 @@
+web: rackup --port $PORT --env $RACK_ENV
