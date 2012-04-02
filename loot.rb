@@ -3,6 +3,10 @@ require "net/https"
 
 class Loot < Sinatra::Application
   FLOW_URI = URI.parse("https://api.flowdock.com/v1/messages/team_inbox/#{ENV['FLOW_API_TOKEN']}")
+  SOURCE = ENV["SOURCE"]
+  FROM_ADDRESS = ENV["FROM_ADDRESS"]
+  FROM_NAME = ENV["FROM_NAME"]
+  TAGS = ENV["TAGS"].to_s.split(",")
 
   get "/" do
     status 200
@@ -24,12 +28,12 @@ class Loot < Sinatra::Application
       request = Net::HTTP::Post.new(FLOW_URI.request_uri)
       request["User-Agent"] = "Loot"
       request.set_form_data({
-        source: "Amiando",
-        from_address: "amiando@frozenrails.eu",
-        from_name: "Amiando",
+        source: SOURCE,
+        from_address: FROM_ADDRESS,
+        from_name: FROM_NAME,
         subject: "Ticket sales! (#{params[:paymentValue]})",
         content: "Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for #{params[:paymentValue]}.",
-        tags: ["frozenrails", "amiando"]
+        tags: TAGS
       })
 
       response = http.request(request)
