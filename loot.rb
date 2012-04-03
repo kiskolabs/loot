@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require "net/http"
 require "net/https"
 
@@ -25,14 +26,16 @@ class Loot < Sinatra::Application
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
+      paymentValue = params[:paymentValue].to_i / 100
+
       request = Net::HTTP::Post.new(FLOW_URI.request_uri)
       request["User-Agent"] = "Loot"
       request.set_form_data({
         source: SOURCE,
         from_address: FROM_ADDRESS,
         from_name: FROM_NAME,
-        subject: "Ticket sales! (#{params[:paymentValue]})",
-        content: "Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for #{params[:paymentValue]}.",
+        subject: subject(params[:numberOfTickets].to_i, paymentValue),
+        content: "Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for €#{paymentValue}.",
         tags: TAGS
       })
 
@@ -52,5 +55,13 @@ class Loot < Sinatra::Application
 
   def pluralize(word, count = 1)
     count == 1 ? "one #{word}" : "#{count} #{word}s"
+  end
+
+  def subject(tickets = 1, value)
+    if tickets == 1
+      "Ticket sale! (€#{value})"
+    else
+      "Ticket sales! (€#{value})"
+    end
   end
 end
