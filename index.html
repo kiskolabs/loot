@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Loot : A (very) simple Flowdock hook for Amiando." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Loot</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/kiskolabs/loot">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Loot</h1>
+          <h2 id="project_tagline">A (very) simple Flowdock hook for Amiando.</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/kiskolabs/loot/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/kiskolabs/loot/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>Development</h2>
+
+<p>Clone the app from GitHub:</p>
+
+<pre><code>git clone git@github.com:kiskolabs/loot.git
+</code></pre>
+
+<p>For development create a <code>.env</code> file (see <code>dot.env</code> for an example).</p>
+
+<p>Start the server with <code>foreman start</code></p>
+
+<h2>Deployment (to Heroku)</h2>
+
+<h3>First time deploy</h3>
+
+<p>Create the heroku app if you haven't already done so:</p>
+
+<pre><code>heroku create --stack cedar amiando-hook-for-fakegrimlock
+</code></pre>
+
+<p>Configure the necessary environment variables (see <code>dot.env</code>) with</p>
+
+<pre><code>heroku config:add MY_VARIABLE=foo
+</code></pre>
+
+<p>Push the code to Heroku:</p>
+
+<pre><code>git push heroku master
+</code></pre>
+
+<h3>nth time deploy</h3>
+
+<pre><code>git push heroku
+</code></pre>
+
+<h2>Amiando integration</h2>
+
+<p>In you event settings, under "Integration", set the <code>Server call</code> to:</p>
+
+<pre><code>https://&lt;heroku-app-name&gt;.herokuapp.com/amiando/&lt;secret&gt;
+</code></pre>
+
+<h2>License and copyright</h2>
+
+<p>Copyright (c) 2012 <a href="http://matiaskorhonen.fi">Matias Korhonen</a></p>
+
+<p>Licensed under the MIT license</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Loot maintained by <a href="https://github.com/kiskolabs">kiskolabs</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
