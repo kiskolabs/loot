@@ -35,7 +35,7 @@ class Loot < Sinatra::Application
         from_address: FROM_ADDRESS,
         from_name: FROM_NAME,
         subject: subject(params[:numberOfTickets].to_i, paymentValue),
-        content: "Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for €#{paymentValue}.",
+        content: build_content(params),
         tags: TAGS
       })
 
@@ -63,5 +63,30 @@ class Loot < Sinatra::Application
     else
       "Ticket sales! (€#{value})"
     end
+  end
+
+  def ticket_list_from_params(params)
+    (0..(params[:numberOfTickets].to_i - 1)).map do |i|
+      {
+        first_name: params["ticketFirstName#{i}"],
+        last_name: params["ticketLastName#{i}"],
+        category: params["ticketCategory#{i}"]
+      }
+    end
+  end
+
+  def formatted_ticket_list(params)
+    tickets = ticket_list_from_params(params)
+    html = "<ul>"
+    html << tickets.map do |ticket|
+      "<li>#{ticket[:category]}: #{ticket[:first_name]} #{ticket[:last_name]}</li>"
+    end.join
+    html << "</ul>"
+  end
+
+  def build_content(params)
+    paymentValue = params[:paymentValue].to_i / 100
+    html = "<p>Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for €#{paymentValue}.</p>"
+    html << formatted_ticket_list(params)
   end
 end
