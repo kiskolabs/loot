@@ -1,7 +1,4 @@
 # encoding: UTF-8
-require "net/http"
-require "net/https"
-
 class Loot < Sinatra::Application
   get "/" do
     status 200
