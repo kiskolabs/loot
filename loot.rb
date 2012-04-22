@@ -7,7 +7,7 @@ class Loot < Sinatra::Application
   SOURCE = ENV["SOURCE"]
   FROM_ADDRESS = ENV["FROM_ADDRESS"]
   FROM_NAME = ENV["FROM_NAME"]
-  TAGS = ENV["TAGS"].to_s.split(",")
+  TAGS = ENV["TAGS"] || "amiando"
 
   get "/" do
     status 200
