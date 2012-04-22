@@ -3,12 +3,6 @@ require "net/http"
 require "net/https"
 
 class Loot < Sinatra::Application
-  FLOW_URI = URI.parse("https://api.flowdock.com/v1/messages/team_inbox/#{ENV['FLOW_API_TOKEN']}")
-  SOURCE = ENV["SOURCE"]
-  FROM_ADDRESS = ENV["FROM_ADDRESS"]
-  FROM_NAME = ENV["FROM_NAME"]
-  TAGS = ENV["TAGS"] || "amiando"
-
   get "/" do
     status 200
     content_type "text/plain"
@@ -21,26 +15,23 @@ class Loot < Sinatra::Application
     if params[:secret] == ENV["SECRET"]
       status 200
 
-      http = Net::HTTP.new(FLOW_URI.host, FLOW_URI.port)
-
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-      paymentValue = params[:paymentValue].to_i / 100
-
-      request = Net::HTTP::Post.new(FLOW_URI.request_uri)
-      request["User-Agent"] = "Loot"
-      request.set_form_data({
-        source: SOURCE,
-        from_address: FROM_ADDRESS,
-        from_name: FROM_NAME,
-        subject: subject(params[:numberOfTickets].to_i, paymentValue),
-        content: build_content(params),
-        tags: TAGS
+      # Create a new Flow object
+      flow = Flowdock::Flow.new({
+        api_token: ENV["FLOW_API_TOKEN"],
+        source: ENV["SOURCE"],
+        from: {
+          name: ENV["FROM_NAME"],
+          address: ENV["FROM_ADDRESS"]
+        }
       })
 
-      response = http.request(request)
-      response.inspect
+      # Send a message to the Team Inbox
+      flow.push_to_team_inbox({
+        subject: subject(params[:numberOfTickets].to_i, params[:paymentValue]),
+        content: build_content(params),
+        tags: ["cool", "stuff"],
+        link: tags
+      })
     else
       status 403
       "403 Forbidden"
@@ -48,6 +39,14 @@ class Loot < Sinatra::Application
   end
 
   private
+
+  def tags
+    if ENV["TAGS"]
+      ENV["TAGS"].to_s.split(",")
+    else
+      ["amiando"]
+    end
+  end
 
   def indefinite_articlerise(params_word)
     %w(a e i o u).include?(params_word[0].downcase) ? "an #{params_word}" : "a #{params_word}"
@@ -57,7 +56,8 @@ class Loot < Sinatra::Application
     count == 1 ? "one #{word}" : "#{count} #{word}s"
   end
 
-  def subject(tickets = 1, value)
+  def subject(tickets = 1, paymentValue)
+    value = paymentValue / 100
     if tickets == 1
       "Ticket sale! (€#{value})"
     else
@@ -85,8 +85,7 @@ class Loot < Sinatra::Application
   end
 
   def build_content(params)
-    paymentValue = params[:paymentValue].to_i / 100
-    html = "<p>Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for €#{paymentValue}.</p>"
+    html = "<p>Sold #{pluralize('ticket', params[:numberOfTickets].to_i)} for €#{params[:paymentValue].to_i / 100}.</p>"
     html << formatted_ticket_list(params)
   end
 end
