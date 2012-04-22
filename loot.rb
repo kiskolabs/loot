@@ -26,8 +26,7 @@ class Loot < Sinatra::Application
       flow.push_to_team_inbox({
         subject: subject(params[:numberOfTickets].to_i, params[:paymentValue]),
         content: build_content(params),
-        tags: ["cool", "stuff"],
-        link: tags
+        tags: tags
       })
     else
       status 403
