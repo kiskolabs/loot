@@ -53,7 +53,7 @@ class Loot < Sinatra::Application
   end
 
   def subject(tickets = 1, paymentValue)
-    value = paymentValue / 100
+    value = paymentValue.to_i / 100
     if tickets == 1
       "Ticket sale! (€#{value})"
     else
