@@ -34,6 +34,12 @@ In you event settings, under "Integration", set the `Server call` to:
 
     https://<heroku-app-name>.herokuapp.com/amiando/<secret>
 
+## Airbrake support
+
+Add your Airbrake API key to Heroku:
+
+    heroku config:add AIRBRAKE=nnn
+
 ## License and copyright
 
 Copyright (c) 2012 [Matias Korhonen](http://matiaskorhonen.fi)
