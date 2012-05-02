@@ -1,5 +1,15 @@
 # encoding: UTF-8
 class Loot < Sinatra::Application
+  if ENV["AIRBRAKE"]
+    require "airbrake"
+
+    Airbrake.configure do |config|
+      config.api_key = ENV["AIRBRAKE"]
+    end
+
+    use Airbrake::Rack
+  end
+
   get "/" do
     status 200
     content_type "text/plain"
