@@ -1,13 +1,17 @@
 # encoding: UTF-8
+
+if ENV["AIRBRAKE"]
+  require "airbrake"
+
+  Airbrake.configure do |config|
+    config.api_key = ENV["AIRBRAKE"]
+  end
+end
+
 class Loot < Sinatra::Application
   if ENV["AIRBRAKE"]
-    require "airbrake"
-
-    Airbrake.configure do |config|
-      config.api_key = ENV["AIRBRAKE"]
-    end
-
     use Airbrake::Rack
+    enable :raise_errors
   end
 
   get "/" do
