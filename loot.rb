@@ -21,6 +21,8 @@ class Loot < Sinatra::Application
   end
 
   post "/amiando/:secret" do
+    puts params.inspect if ENV["LOG_PARAMS"]
+
     content_type "text/plain"
 
     if params[:secret] == ENV["SECRET"]
