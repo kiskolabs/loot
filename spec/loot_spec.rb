@@ -16,7 +16,7 @@ describe Loot do
       "paymentShipmentFee" => "0",
       "paymentValue" => "24900",
       "paymentVipSupportFee" => "0",
-      "secret" => "75857cffdb841b3d643071798589e996e2265b1c",
+      # "secret" => "secret_code",
       "ticketCategory0" => "Early Bird",
       "ticketCategoryId0" => "3518340",
       "ticketCategoryPrice0" => "24900",
@@ -32,6 +32,25 @@ describe Loot do
     it "should be successful" do
       get "/"
       last_response.should be_ok
+    end
+  end
+
+  describe "POST '/amiando/:secret'" do
+    it "should be successful if the secret is correct" do
+      ENV["SECRET"] = "secret"
+
+      flow = double("flow")
+      flow.should_receive(:push_to_team_inbox).and_return(true)
+      Flowdock::Flow.stub(:new).and_return(flow)
+
+      post "/amiando/secret", single_ticket_params
+      last_response.should be_ok
+    end
+
+    it "should be unsuccessful if the secret is incorrect" do
+      ENV["SECRET"] = "secret"
+      post "/amiando/wrongsecret", single_ticket_params
+      last_response.should be_forbidden
     end
   end
 end
