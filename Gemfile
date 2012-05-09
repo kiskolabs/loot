@@ -6,6 +6,7 @@ gem "thin"
 gem "flowdock"
 gem "i18n"
 gem "airbrake", require: false
+gem "linguistics", "~> 1.0.9"
 
 group :development do
   gem "heroku", ">= 2.23.0"

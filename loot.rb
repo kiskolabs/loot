@@ -9,9 +9,16 @@ if ENV["AIRBRAKE"]
 end
 
 class Loot < Sinatra::Application
+  Linguistics::use( :en )
+
   if ENV["AIRBRAKE"]
     use Airbrake::Rack
     enable :raise_errors
+  end
+
+  helpers do
+    include Linguistics::EN
+    alias pluralize no
   end
 
   get "/" do
@@ -60,21 +67,9 @@ class Loot < Sinatra::Application
     end
   end
 
-  def indefinite_articlerise(params_word)
-    %w(a e i o u).include?(params_word[0].downcase) ? "an #{params_word}" : "a #{params_word}"
-  end
-
-  def pluralize(word, count = 1)
-    count == 1 ? "one #{word}" : "#{count} #{word}s"
-  end
-
   def subject(tickets = 1, paymentValue)
     value = paymentValue.to_i / 100
-    if tickets == 1
-      "Ticket sale! (€#{value})"
-    else
-      "Ticket sales! (€#{value})"
-    end
+    "Ticket #{plural('sale', tickets)}! (€#{value})"
   end
 
   def ticket_list_from_params(params)
