@@ -1,8 +1,8 @@
 require "bundler"
 Bundler.require
 
-require File.expand_path("../loot.rb", __FILE__)
+require File.expand_path("../lib/loot.rb", __FILE__)
 
 $stdout.sync = true
 
-run Loot
+run Loot::Application

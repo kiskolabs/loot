@@ -6,7 +6,7 @@ Bundler.require(:default, ENV["RACK_ENV"].to_sym)
 require "simplecov"
 SimpleCov.start
 
-require File.expand_path(File.dirname(__FILE__) + "/../loot.rb")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/loot.rb")
 
 Webrat.configure do |conf|
   conf.mode = :rack

@@ -1,7 +1,8 @@
+# encoding: UTF-8
 require "spec_helper"
 
 describe Loot do
-  let(:app) { Loot }
+  let(:app) { Loot::Application }
   let(:single_ticket_params) do
     {
       "eventId" => "56789012",
