@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module Loot
   module Helpers
     Linguistics::use( :en )

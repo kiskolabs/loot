@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module ParamsHelpers
   def params_for_one_ticket
     indifferent_hash({
