@@ -34,6 +34,7 @@ module Loot
         "<li>#{ticket[:category]}: #{ticket[:first_name]} #{ticket[:last_name]}</li>"
       end.join
       html << "</ul>"
+      replace_invalid_unicode_characters(html)
     end
 
     def build_content(params)
@@ -58,6 +59,10 @@ module Loot
       end
 
       "#{symbol}#{value}"
+    end
+
+    def replace_invalid_unicode_characters(value)
+      value.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
     end
   end
 end
