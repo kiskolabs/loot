@@ -20,9 +20,9 @@ module Loot
     def ticket_list_from_params(params)
       (0..(params[:numberOfTickets].to_i - 1)).map do |i|
         {
-          first_name: params["ticketFirstName#{i}"],
-          last_name: params["ticketLastName#{i}"],
-          category: params["ticketCategory#{i}"]
+          first_name: replace_invalid_unicode_characters(params["ticketFirstName#{i}"]),
+          last_name: replace_invalid_unicode_characters(params["ticketLastName#{i}"]),
+          category: replace_invalid_unicode_characters(params["ticketCategory#{i}"])
         }
       end
     end
@@ -34,7 +34,7 @@ module Loot
         "<li>#{ticket[:category]}: #{ticket[:first_name]} #{ticket[:last_name]}</li>"
       end.join
       html << "</ul>"
-      replace_invalid_unicode_characters(html)
+      html
     end
 
     def build_content(params)
@@ -62,7 +62,7 @@ module Loot
     end
 
     def replace_invalid_unicode_characters(value)
-      value.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
+      value.force_encoding("ISO-8859-1").encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
     end
   end
 end
