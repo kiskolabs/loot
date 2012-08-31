@@ -62,7 +62,7 @@ module Loot
     end
 
     def replace_invalid_unicode_characters(value)
-      value.force_encoding("ISO-8859-1").encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
+      value.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
     end
   end
 end
