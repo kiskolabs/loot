@@ -1,4 +1,7 @@
 # encoding: UTF-8
+
+require File.expand_path(File.dirname(__FILE__) + "/cleaner.rb")
+
 module Loot
   module Helpers
     Linguistics::use( :en )
@@ -20,9 +23,9 @@ module Loot
     def ticket_list_from_params(params)
       (0..(params[:numberOfTickets].to_i - 1)).map do |i|
         {
-          first_name: replace_invalid_unicode_characters(params["ticketFirstName#{i}"]),
-          last_name: replace_invalid_unicode_characters(params["ticketLastName#{i}"]),
-          category: replace_invalid_unicode_characters(params["ticketCategory#{i}"])
+          first_name: Loot::Cleaner.clean(params["ticketFirstName#{i}"]),
+          last_name: Loot::Cleaner.clean(params["ticketLastName#{i}"]),
+          category: Loot::Cleaner.clean(params["ticketCategory#{i}"])
         }
       end
     end
@@ -59,10 +62,6 @@ module Loot
       end
 
       "#{symbol}#{value}"
-    end
-
-    def replace_invalid_unicode_characters(value)
-      value.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
     end
   end
 end
