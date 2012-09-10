@@ -1,6 +1,8 @@
 # encoding: binary
 
 # Removes any bytes from a string that are not valid UTF-8
+# Source: https://gist.github.com/3600034
+# Author: Konstantin Haase (https://github.com/rkh)
 module Loot
   class Cleaner
     attr_reader :bytes, :buffer, :outstanding
