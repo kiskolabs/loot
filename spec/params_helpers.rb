@@ -58,7 +58,7 @@ module ParamsHelpers
     })
   end
 
-  def params_with_invalid_utf8
+  def params_with_windows_1252
     indifferent_hash({
       "eventId" => "56789012",
       "eventIdentifier" => "frozenrails-2012",
@@ -76,9 +76,9 @@ module ParamsHelpers
       "ticketCategoryId0" => "3518340",
       "ticketCategoryPrice0" => "24900",
       "ticketEmail0" => "john.doe@example.invalid",
-      "ticketFirstName0" => "John",
+      "ticketFirstName0" => "Matti",
       "ticketId" => "123456789",
-      "ticketLastName0" => "yummy\xE2 \xF0\x9F\x8D\x94 \x9F\x8D\x94",
+      "ticketLastName0" => "Meik\xE4l\xE4inen",
       "ticketNumber0" => "3151-0123-9876"
     })
   end

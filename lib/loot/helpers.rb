@@ -20,12 +20,16 @@ module Loot
       "Ticket #{plural('sale', tickets.to_i)}! (#{format_money(value, currency)})"
     end
 
+    def force_and_clean(string)
+      Loot::Cleaner.clean(string.force_encoding("windows-1252").encode("utf-8", invalid: :replace, undef: :replace))
+    end
+
     def ticket_list_from_params(params)
       (0..(params[:numberOfTickets].to_i - 1)).map do |i|
         {
-          first_name: Loot::Cleaner.clean(params["ticketFirstName#{i}"]),
-          last_name: Loot::Cleaner.clean(params["ticketLastName#{i}"]),
-          category: Loot::Cleaner.clean(params["ticketCategory#{i}"])
+          first_name: force_and_clean(params["ticketFirstName#{i}"]),
+          last_name: force_and_clean(params["ticketLastName#{i}"]),
+          category: force_and_clean(params["ticketCategory#{i}"])
         }
       end
     end

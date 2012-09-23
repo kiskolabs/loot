@@ -34,9 +34,9 @@ describe Loot do
       end
     end
 
-    it "parses data with invalid UTF-8" do
-      tickets = helpers.ticket_list_from_params(params_with_invalid_utf8)
-      tickets.first[:last_name].should == "yummy \xF0\x9F\x8D\x94 "
+    it "parses data from Windows-1252" do
+      tickets = helpers.ticket_list_from_params(params_with_windows_1252)
+      tickets.first[:last_name].should == "Meikäläinen"
     end
   end
 end
