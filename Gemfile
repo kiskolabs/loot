@@ -10,7 +10,6 @@ gem "linguistics", "~> 1.0.9"
 gem "twitter_cldr", "~> 1.1.0"
 
 group :development do
-  gem "heroku", ">= 2.23.0"
   gem "shotgun"
 end
 
